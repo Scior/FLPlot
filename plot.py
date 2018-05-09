@@ -29,20 +29,27 @@ parser.add_argument('source', help='source directory')
 args = parser.parse_args()
 
 fl_list = []
+file_count = 0
 
 for path in find_files(args.source):
     if path.lower().endswith('.jpg'):
-        fl = get_focal_length(Image.open(path))
+        try:
+            img = Image.open(path)
+        except:
+            continue
+
+        fl = get_focal_length(img)
         if fl is None:
             continue
+            
         fl_list.append(fl)
+        file_count += 1
 
 fl_array = np.array(fl_list)
-
 fig = plt.figure()
-ax = fig.add_subplot(1,1,1)
 
-ax.hist(fl_array, bins=50)
-ax.set_xlabel('Focal Length(mm)')
+plt.hist(fl_array, bins=50)
+plt.xlabel('Focal Length(mm)')
+plt.title('n={0}'.format(file_count))
 fig.show()
 plt.savefig('figure.png')
