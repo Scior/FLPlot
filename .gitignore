@@ -7,5 +7,5 @@
 [Ss]cripts
 pyvenv.cfg
 .venv
-.png
+*.png
 pip-selfcheck.json
